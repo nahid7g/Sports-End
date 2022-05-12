@@ -1,0 +1,14 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 40px 0;
+    height: 550px;
+}
+
+.or-border {
+    height: 3px;
+    width: 150px;
+    background-color: lightsalmon;
+    margin: 0 5px;
+}

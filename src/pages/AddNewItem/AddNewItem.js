@@ -26,7 +26,7 @@ const AddNewItem = () => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="category">
                     <Form.Label>Category</Form.Label>
-                    <input className='form-control' {...register("category")} required />
+                    <input className='form-control' {...register("Category")} required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="description">
                     <Form.Label>Description</Form.Label>
