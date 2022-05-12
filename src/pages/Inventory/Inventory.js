@@ -1,45 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Container, FormControl, InputGroup } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import "./Inventory.css";
 
 const Inventory = () => {
     const [product, setProduct] = useState({});
-    const [stocks, setStock] = useState({});
     const { productId } = useParams();
     const url = `http://localhost:5000/products/${productId}`;
     useEffect(() => {
         fetch(url)
             .then(res => res.json())
             .then(data => setProduct(data));
-    }, [product]);
+    }, [product, url]);
     const { img, name, supplier, inStock, description, price } = product;
     const handleUpdate = event => {
         event.preventDefault();
-        const stock = parseInt(event.target.stock.value);
-        const theProduct = { stock, inStock }
-        if (typeof stock === "number" && stock > 0) {
+        const stockInput = parseInt(event.target.stock.value);
+        const stock = stockInput + inStock;
+        const theProduct = { stock }
+        if (typeof stockInput === "number" && stockInput > 0) {
             fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "Application/json" },
                 body: JSON.stringify(theProduct)
             })
                 .then(res => res.json())
-                .then(data => console.log(data))
+                .then(data => alert(stockInput + " Items succesfully added in Stocks."))
         }
         event.target.reset();
     }
 
     const handleDelivery = event => {
         event.preventDefault();
-        const delivered = { inStock };
-        // fetch(url, {
-        //     method: "PUT",
-        //     headers: { "Content-Type": "Application/json" },
-        //     body: JSON.stringify(delivered)
-        // })
-        //     .then(res => res.json())
-        //     .then(data => console.log(data))
+        const stock = inStock - 1;
+        const delivered = { stock };
+        fetch(url, {
+            method: "PUT",
+            headers: { "Content-Type": "Application/json" },
+            body: JSON.stringify(delivered)
+        })
+            .then(res => res.json())
+            .then(data => alert("Succesfully Delivered."))
     }
     return (
         <Container className='col-5 my-4'>
@@ -56,6 +57,9 @@ const Inventory = () => {
                     <Card.Text>description: {description}</Card.Text>
                     <Card.Text>price: ${price}</Card.Text>
                     <button onClick={handleDelivery} className='btn btn-primary'>Delivered</button>
+                    <section className='inventory-link'>
+                        <Link to="/manage-inventory" className='btn btn-secondary'>Manage Inventory</Link>
+                    </section>
                 </Card.Body>
             </Card>
             <section className='my-2'>
