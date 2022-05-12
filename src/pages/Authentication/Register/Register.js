@@ -7,7 +7,7 @@ import auth from '../../../firebase.init';
 import Loading from '../../Loading/Loading';
 
 const Register = () => {
-    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [aError, setAerror] = useState("")
     const navigate = useNavigate();
     const [
@@ -16,14 +16,14 @@ const Register = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
-    const [signInWithGoogle, user1, loading1, error1] = useSignInWithGoogle(auth);
-    const onSubmit = data => {
+    const [signInWithGoogle, user1, loading1, error1] = useSignInWithGoogle(auth, { sendEmailVerification: true });
+    const onSubmit = async data => {
         const { email, password, confirmPassword } = data;
         if (password !== confirmPassword) {
             setAerror("Password din't match.")
             return;
         }
-        createUserWithEmailAndPassword(email, password)
+        await createUserWithEmailAndPassword(email, password)
         reset();
     };
     const handleGoogleSignIn = () => {
