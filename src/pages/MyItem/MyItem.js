@@ -4,7 +4,7 @@ const MyItem = ({ product, deleteProduct }) => {
     const { name, price, description, _id, Category, inStock, supplier, img } = product;
     return (
         <>
-            <tbody>
+            <tbody className='vh-100'>
                 <tr>
                     <td><img src={img} alt={name} /> {name}</td>
                     <td>{Category}</td>
