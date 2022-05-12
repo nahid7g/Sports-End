@@ -6,7 +6,7 @@ import "./Inventory.css";
 const Inventory = () => {
     const [product, setProduct] = useState({});
     const { productId } = useParams();
-    const url = `http://localhost:5000/products/${productId}`;
+    const url = `https://sports-end.herokuapp.com/products/${productId}`;
     useEffect(() => {
         fetch(url)
             .then(res => res.json())

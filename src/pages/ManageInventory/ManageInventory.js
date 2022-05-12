@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Container, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import InventoryDetail from '../InventoryDetail/InventoryDetail';
+import Loading from '../Loading/Loading';
 
 const ManageInventory = () => {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:5000/products")
+        fetch("https://sports-end.herokuapp.com/allproducts")
             .then(res => res.json())
             .then(data => setProducts(data))
     }, [products]);
     const deleteProduct = id => {
         const confirm = window.confirm("Are you Sure?")
         if (confirm) {
-            const url = `http://localhost:5000/products/${id}`;
+            const url = `https://sports-end.herokuapp.com/products/${id}`;
             fetch(url, {
                 method: "DELETE"
             })
@@ -25,7 +26,7 @@ const ManageInventory = () => {
                     }
                 });
         }
-    }
+    };
     return (
         <Container className='p-4 my-4' id='stocks'>
             <h2>Inventory List</h2>

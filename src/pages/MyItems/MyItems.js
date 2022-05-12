@@ -9,7 +9,7 @@ const MyItems = () => {
     const [user] = useAuthState(auth);
     const email = user.email;
     useEffect(() => {
-        const url = `http://localhost:5000/myproducts?email=${email}`;
+        const url = `https://sports-end.herokuapp.com/myproducts?email=${email}`;
         fetch(url)
             .then(res => res.json())
             .then(data => setMyProducts(data));
@@ -17,7 +17,7 @@ const MyItems = () => {
     const deleteProduct = id => {
         const confirm = window.confirm("Are you Sure?")
         if (confirm) {
-            const url = `http://localhost:5000/products/${id}`;
+            const url = `https://sports-end.herokuapp.com/products/${id}`;
             fetch(url, {
                 method: "DELETE"
             })

@@ -3,14 +3,15 @@ import "./Stocks.css";
 import { Container, Table } from 'react-bootstrap';
 import Stock from '../Stock/Stock';
 import { Link } from 'react-router-dom';
+import Loading from '../../Loading/Loading';
 
 const Stocks = () => {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:5000/products")
+        fetch("https://sports-end.herokuapp.com/products")
             .then(res => res.json())
             .then(data => setProducts(data))
-    }, [])
+    }, [products]);
     return (
         <Container className='p-4 mb-4' id='stocks'>
             <h2>Inventory List</h2>

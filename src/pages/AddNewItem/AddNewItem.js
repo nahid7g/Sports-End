@@ -12,7 +12,7 @@ const AddNewItem = () => {
     const onSubmit = data => {
         const { name, Category, description, price, inStock, supplier, img } = data;
         const newProduct = { name, Category, description, price, inStock, supplier, img, email }
-        fetch("http://localhost:5000/products", {
+        fetch("https://sports-end.herokuapp.com/products", {
             method: "POST",
             headers: {
                 'Content-Type': "Application/json",
