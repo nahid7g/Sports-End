@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { Container, Form } from 'react-bootstrap';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import auth from '../../firebase.init';
 
 const AddNewItem = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [product, setProduct] = useState({});
+    const [user] = useAuthState(auth);
+    const email = user.email;
     const onSubmit = data => {
+        const { name, Category, description, price, inStock, supplier, img } = data;
+        const newProduct = { name, Category, description, price, inStock, supplier, img, email }
         fetch("http://localhost:5000/products", {
             method: "POST",
             headers: {
                 'Content-Type': "Application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(newProduct),
         })
             .then(res => res.json())
-            .then(data => console.log(data));
+            .then(data => alert("Successfully added."));
         reset();
     };
     return (

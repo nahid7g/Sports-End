@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Form } from 'react-bootstrap';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
@@ -18,14 +18,18 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth)
+    const [signInWithGoogle, user1, loading1, error1] = useSignInWithGoogle(auth);
     const onSubmit = data => {
         const { email, password } = data;
         signInWithEmailAndPassword(email, password)
     };
-    if (loading) {
+    const handleGoogleSignIn = () => {
+        signInWithGoogle();
+    }
+    if (loading || loading1) {
         return <Loading></Loading>
     }
-    if (user) {
+    if (user || user1) {
         navigate(from, { replace: true });
     }
     return (
@@ -41,7 +45,7 @@ const Login = () => {
                     <input className='form-control' type="password" {...register("password")} required />
                 </Form.Group>
                 {/* errors will return when field validation fails  */}
-                <p className='text-danger'>{error?.message}</p>
+                <p className='text-danger'>{error?.message || error1?.message}</p>
                 {errors.exampleRequired && <span>This field is required</span>}
                 <input type="submit" value="Login" className='btn btn-primary' />
             </form>
@@ -51,7 +55,7 @@ const Login = () => {
                 <div>Or</div>
                 <div className='or-border'></div>
             </div>
-            <button className="btn btn-info text-white">Continue with Google</button>
+            <button onClick={handleGoogleSignIn} className="btn btn-info text-white">Continue with Google</button>
         </Container>
     );
 };

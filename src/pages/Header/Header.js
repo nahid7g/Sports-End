@@ -24,6 +24,7 @@ const Header = () => {
                                     <>
                                         <Nav.Link as={Link} to="/manage-inventory">Manage Inventory</Nav.Link>
                                         <Nav.Link as={Link} to="/add-new-item">Add New Item</Nav.Link>
+                                        <Nav.Link as={Link} to="/my-items">My Items</Nav.Link>
                                         <button onClick={handleLogout}>Logout</button>
                                     </>
                                 )

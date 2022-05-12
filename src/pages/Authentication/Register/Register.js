@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init';
 import Loading from '../../Loading/Loading';
 
@@ -16,6 +16,7 @@ const Register = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
+    const [signInWithGoogle, user1, loading1, error1] = useSignInWithGoogle(auth);
     const onSubmit = data => {
         const { email, password, confirmPassword } = data;
         if (password !== confirmPassword) {
@@ -25,10 +26,13 @@ const Register = () => {
         createUserWithEmailAndPassword(email, password)
         reset();
     };
-    if (loading) {
+    const handleGoogleSignIn = () => {
+        signInWithGoogle();
+    }
+    if (loading || loading1) {
         return <Loading></Loading>
     }
-    if (user) {
+    if (user || user1) {
         navigate("/")
     }
 
@@ -50,7 +54,7 @@ const Register = () => {
                 </Form.Group>
                 {/* errors will return when field validation fails  */}
                 <p className='text-danger'>{aError}</p>
-                <p className='text-danger'>{error?.message}</p>
+                <p className='text-danger'>{error?.message || error1?.message}</p>
                 {errors.exampleRequired && <span>This field is required</span>}
                 <input type="submit" value="Register" className='btn btn-primary' />
             </form>
@@ -60,7 +64,7 @@ const Register = () => {
                 <div>Or</div>
                 <div className='or-border'></div>
             </div>
-            <button className="btn btn-info text-white">Continue with Google</button>
+            <button onClick={handleGoogleSignIn} className="btn btn-info text-white">Continue with Google</button>
         </Container>
     );
 };
